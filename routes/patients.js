@@ -139,9 +139,13 @@ router.patch(':key', function (req, res) {
   const key = req.pathParams.key;
   const patientId = `${patients.name()}/${key}`;
   if (!hasPerm(req.user, 'change_patients', patientId)) res.throw(403, 'Not authorized');
+  const canAccessBilling = hasPerm(req.user, 'access_patients_billing', patientId);
+  const canAccessMedical = hasPerm(req.user, 'access_patients_medical', patientId);
   const patchData = req.body;
   let patient;
   try {
+    if (!canAccessBilling) delete patchData.billing;
+    if (!canAccessMedical) delete patchData.medical;
     patients.update(key, patchData);
     patient = patients.document(key);
   } catch (e) {
@@ -153,6 +157,8 @@ router.patch(':key', function (req, res) {
     }
     throw e;
   }
+  if (!canAccessBilling) delete patient.billing;
+  if (!canAccessMedical) delete patient.medical;
   res.send(patient);
 }, 'update')
 .pathParam('key', keySchema)
