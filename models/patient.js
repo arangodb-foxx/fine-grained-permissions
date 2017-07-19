@@ -5,7 +5,11 @@ const joi = require('joi');
 module.exports = {
   schema: {
     // Describe the attributes with joi here
-    _key: joi.string()
+    _key: joi.string(),
+    name: joi.string().required(),
+    dob: joi.string().regex(/^\d{4}-\d{2}-\d{2}$/).required(),
+    medical: joi.array().optional(),
+    billing: joi.array().optional()
   },
   forClient(obj) {
     // Implement outgoing transformations here
