@@ -25,3 +25,26 @@ router.post('/login', function (req, res) {
   password: joi.string().required()
 }).required(), 'Credentials')
 .description('Logs a registered user in.');
+
+router.post('/signup', function (req, res) {
+  const user = {};
+  try {
+    user.authData = auth.create(req.body.password);
+    user.username = req.body.username;
+    user.perms = [];
+    const meta = users.save(user);
+    Object.assign(user, meta);
+  } catch (e) {
+    // Failed to save the user
+    // We'll assume the uniqueness constraint has been violated
+    res.throw('bad request', 'Username already taken', e);
+  }
+  req.session.uid = user._key;
+  req.sessionStorage.save(req.session);
+  res.send({success: true});
+})
+.body(joi.object({
+  username: joi.string().required(),
+  password: joi.string().required()
+}).required(), 'Credentials')
+.description('Creates a new user and logs them in.');
