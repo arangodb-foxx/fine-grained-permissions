@@ -43,6 +43,8 @@ router.get(restrict('view_patients'), function (req, res) {
 
 router.post(restrict('add_patients'), function (req, res) {
   const patient = req.body;
+  if (!hasPerm(req.user, 'access_patients_billing')) delete patient.billing;
+  if (!hasPerm(req.user, 'access_patients_medical')) delete patient.medical;
   let meta;
   try {
     meta = patients.save(patient);
