@@ -58,3 +58,12 @@ router.get('/whoami', function (req, res) {
   }
 })
 .description('Returns the currently active username.');
+
+router.post('/logout', function (req, res) {
+  if (req.session.uid) {
+    req.session.uid = null;
+    req.sessionStorage.save(req.session);
+  }
+  res.send({success: true});
+})
+.description('Logs the current user out.');
