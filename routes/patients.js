@@ -10,6 +10,7 @@ const hasPerm = require('../util/hasPerm');
 const Patient = require('../models/patient');
 
 const patients = module.context.collection('patients');
+const perms = module.context.collection('hasPerm');
 const keySchema = joi.string().required()
 .description('The key of the patient');
 
