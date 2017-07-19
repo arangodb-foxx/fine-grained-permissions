@@ -152,6 +152,11 @@ router.patch(':key', function (req, res) {
 
 router.delete(':key', function (req, res) {
   const key = req.pathParams.key;
+  const patientId = `${patients.name()}/${key}`;
+  if (!hasPerm(req.user, 'remove_patients', patientId)) res.throw(403, 'Not authorized');
+  for (const perm of perms.inEdges(patientId)) {
+    perms.remove(perm);
+  }
   try {
     patients.remove(key);
   } catch (e) {
