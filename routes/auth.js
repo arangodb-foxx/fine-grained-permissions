@@ -31,7 +31,7 @@ router.post('/signup', function (req, res) {
   try {
     user.authData = auth.create(req.body.password);
     user.username = req.body.username;
-    user.perms = [];
+    user.perms = ['add_patients', 'view_patients'];
     const meta = users.save(user);
     Object.assign(user, meta);
   } catch (e) {
