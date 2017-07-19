@@ -102,9 +102,14 @@ router.put(':key', function (req, res) {
   const key = req.pathParams.key;
   const patientId = `${patients.name()}/${key}`;
   if (!hasPerm(req.user, 'change_patients', patientId)) res.throw(403, 'Not authorized');
+  const canAccessBilling = hasPerm(req.user, 'access_patients_billing', patientId);
+  const canAccessMedical = hasPerm(req.user, 'access_patients_medical', patientId);
   const patient = req.body;
   let meta;
   try {
+    const old = patients.document(key);
+    if (!canAccessBilling) patient.billing = old.billing;
+    if (!canAccessMedical) patient.medical = old.medical;
     meta = patients.replace(key, patient);
   } catch (e) {
     if (e.isArangoError && e.errorNum === ARANGO_NOT_FOUND) {
@@ -116,6 +121,8 @@ router.put(':key', function (req, res) {
     throw e;
   }
   Object.assign(patient, meta);
+  if (!canAccessBilling) delete patient.billing;
+  if (!canAccessMedical) delete patient.medical;
   res.send(patient);
 }, 'replace')
 .pathParam('key', keySchema)
