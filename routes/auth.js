@@ -48,3 +48,13 @@ router.post('/signup', function (req, res) {
   password: joi.string().required()
 }).required(), 'Credentials')
 .description('Creates a new user and logs them in.');
+
+router.get('/whoami', function (req, res) {
+  try {
+    const user = users.document(req.session.uid);
+    res.send({username: user.username});
+  } catch (e) {
+    res.send({username: null});
+  }
+})
+.description('Returns the currently active username.');
