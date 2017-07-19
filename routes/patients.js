@@ -69,6 +69,8 @@ router.post(restrict('add_patients'), function (req, res) {
 
 router.get(':key', function (req, res) {
   const key = req.pathParams.key;
+  const patientId = `${patients.name()}/${key}`;
+  if (!hasPerm(req.user, 'view_patients', patientId)) res.throw(403, 'Not authorized');
   let patient
   try {
     patient = patients.document(key);
