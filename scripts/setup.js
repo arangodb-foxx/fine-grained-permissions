@@ -28,3 +28,10 @@ for (const localName of edgeCollections) {
     console.debug(`collection ${qualifiedName} already exists. Leaving it untouched.`)
   }
 }
+
+const users = module.context.collection('users');
+users.ensureIndex({
+  type: 'hash',
+  fields: ['username'],
+  unique: true
+});
