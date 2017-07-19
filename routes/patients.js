@@ -92,6 +92,8 @@ router.get(':key', function (req, res) {
 
 router.put(':key', function (req, res) {
   const key = req.pathParams.key;
+  const patientId = `${patients.name()}/${key}`;
+  if (!hasPerm(req.user, 'change_patients', patientId)) res.throw(403, 'Not authorized');
   const patient = req.body;
   let meta;
   try {
@@ -120,6 +122,8 @@ router.put(':key', function (req, res) {
 
 router.patch(':key', function (req, res) {
   const key = req.pathParams.key;
+  const patientId = `${patients.name()}/${key}`;
+  if (!hasPerm(req.user, 'change_patients', patientId)) res.throw(403, 'Not authorized');
   const patchData = req.body;
   let patient;
   try {
