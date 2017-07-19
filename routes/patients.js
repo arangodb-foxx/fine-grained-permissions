@@ -37,7 +37,7 @@ router.get(restrict('view_patients'), function (req, res) {
 `);
 
 
-router.post(function (req, res) {
+router.post(restrict('add_patients'), function (req, res) {
   const patient = req.body;
   let meta;
   try {
@@ -49,6 +49,8 @@ router.post(function (req, res) {
     throw e;
   }
   Object.assign(patient, meta);
+  perms.save({_from: req.user._id, _to: patient._id, name: 'change_patients'});
+  perms.save({_from: req.user._id, _to: patient._id, name: 'remove_patients'});
   res.status(201);
   res.set('location', req.makeAbsolute(
     req.reverse('detail', {key: patient._key})
