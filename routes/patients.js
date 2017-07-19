@@ -28,7 +28,11 @@ router.tag('patient');
 
 
 router.get(restrict('view_patients'), function (req, res) {
-  res.send(patients.all());
+  res.send(patients.toArray().map(patient => {
+    delete patient.billing;
+    delete patient.medical;
+    return patient;
+  }));
 }, 'list')
 .response([Patient], 'A list of patients.')
 .summary('List all patients')
