@@ -5,6 +5,8 @@ const httpError = require('http-errors');
 const status = require('statuses');
 const errors = require('@arangodb').errors;
 const createRouter = require('@arangodb/foxx/router');
+const restrict = require('../util/restrict');
+const hasPerm = require('../util/hasPerm');
 const Patient = require('../models/patient');
 
 const patients = module.context.collection('patients');
