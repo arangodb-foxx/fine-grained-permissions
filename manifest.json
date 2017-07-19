@@ -1,0 +1,16 @@
+{
+    "name": "Demo",
+    "version": "0.0.0",
+    "description": "Demo",
+    "engines": {
+        "arangodb": "^3.0.0"
+    },
+    "author": "Demo",
+    "license": "Apache 2",
+    "main": "main.js",
+    "scripts": {
+        "setup": "scripts/setup.js",
+        "teardown": "scripts/teardown.js"
+    },
+    "tests": "test/**/*.js"
+}
