@@ -27,7 +27,7 @@ module.exports = router;
 router.tag('patient');
 
 
-router.get(function (req, res) {
+router.get(restrict('view_patients'), function (req, res) {
   res.send(patients.all());
 }, 'list')
 .response([Patient], 'A list of patients.')
