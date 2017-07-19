@@ -86,6 +86,8 @@ router.get(':key', function (req, res) {
     }
     throw e;
   }
+  if (!hasPerm(req.user, 'access_patients_billing', patientId)) delete patient.billing;
+  if (!hasPerm(req.user, 'access_patients_medical', patientId)) delete patient.medical;
   res.send(patient);
 }, 'detail')
 .pathParam('key', keySchema)
