@@ -18,7 +18,7 @@ router.post('/login', function (req, res) {
   if (!valid) res.throw('unauthorized');
   req.session.uid = user._key;
   req.sessionStorage.save(req.session);
-  res.send({sucess: true});
+  res.send({success: true});
 })
 .body(joi.object({
   username: joi.string().required(),
