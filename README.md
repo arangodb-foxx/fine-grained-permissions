@@ -1,5 +1,5 @@
 This repository goes along with the ArangoDB tutorial
-[Foxx Fine-Grained Permissions](https://www.arangodb.com/foxx-fine-grained-permissions/).
+[Foxx Fine-Grained Permissions](https://arangodb.com/learn/development/foxx-fine-grained-permissions/).
 
 Each step of the tutorial is represented by a separate commit, the beginning of each section is marked with a git tag.
 
